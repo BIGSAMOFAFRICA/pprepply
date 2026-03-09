@@ -1,0 +1,45 @@
+// This is your Prisma schema file
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  reports   Report[]
+}
+
+model Report {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  githubUsername  String
+  avatarUrl       String?
+  name            String?
+  bio             String?
+  followers       Int      @default(0)
+  following       Int      @default(0)
+  publicRepos     Int      @default(0)
+  totalStars      Int      @default(0)
+  totalForks      Int      @default(0)
+  developerScore  Float    @default(0)
+  scoreBreakdown  Json?
+  languages       Json?
+  topRepos        Json?
+  contributions   Json?
+  suggestions     Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([userId])
+  @@index([githubUsername])
+}
