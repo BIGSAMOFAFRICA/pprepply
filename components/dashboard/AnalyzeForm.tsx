@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Search, Loader2, Save, RefreshCw } from 'lucide-react';
+import { Search, Loader2, Save, RefreshCw, Sparkles, Building2, CheckCircle2 } from 'lucide-react';
 import { AnalysisResult } from '@/types';
 import DeveloperScore from './DeveloperScore';
 import LanguageChart from './LanguageChart';
@@ -55,11 +55,9 @@ export default function AnalyzeForm() {
 
   return (
     <div className="space-y-6">
-      {/* Search form */}
       <div className="bg-bg-secondary rounded-2xl border border-white/[0.06] p-6">
         <h1 className="text-2xl font-bold text-text-primary mb-1">Analyze GitHub Profile</h1>
-        <p className="text-text-secondary mb-6">Enter any GitHub username to generate a comprehensive analysis</p>
-
+        <p className="text-text-secondary mb-6">Measure portfolio quality, map real hiring fit, and check whether a company is realistic.</p>
         <div className="flex gap-3">
           <div className="relative flex-1">
             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted font-mono text-lg">@</span>
@@ -92,10 +90,8 @@ export default function AnalyzeForm() {
         )}
       </div>
 
-      {/* Results */}
       {result && (
         <div className="space-y-5 animate-fade-in">
-          {/* Action bar */}
           <div className="flex items-center justify-between">
             <p className="text-text-secondary text-sm">
               Analysis complete for <span className="text-accent font-mono">@{result.user.login}</span>
@@ -129,12 +125,94 @@ export default function AnalyzeForm() {
 
           <ProfileHeader user={result.user} totalStars={result.totalStars} totalForks={result.totalForks} />
           <DeveloperScore score={result.developerScore} breakdown={result.scoreBreakdown} />
+
+          <div className="bg-bg-secondary rounded-2xl border border-white/[0.06] p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <Sparkles className="w-4 h-4 text-accent" />
+              <h2 className="text-sm font-medium text-text-secondary uppercase tracking-widest font-mono">AI Summary</h2>
+            </div>
+            <p className="text-base text-text-primary leading-relaxed">{result.aiSummary}</p>
+            <div className="grid md:grid-cols-2 gap-4 mt-6">
+              <div>
+                <h3 className="text-sm font-medium text-text-secondary mb-3">Key strengths</h3>
+                <ul className="space-y-2">
+                  {result.keyStrengths.map((item) => (
+                    <li key={item} className="flex gap-2 text-sm text-text-secondary">
+                      <CheckCircle2 className="w-4 h-4 text-accent mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-sm font-medium text-text-secondary mb-3">Main risks</h3>
+                <ul className="space-y-2">
+                  {result.risks.map((item) => (
+                    <li key={item} className="flex gap-2 text-sm text-text-secondary">
+                      <span className="w-2 h-2 bg-yellow-400 rounded-full mt-2" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-bg-secondary rounded-2xl border border-white/[0.06] p-6">
+            <div className="flex items-center gap-2 mb-5">
+              <Building2 className="w-4 h-4 text-accent" />
+              <h2 className="text-sm font-medium text-text-secondary uppercase tracking-widest font-mono">Best-fit companies</h2>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              {result.companyMatches.map((company) => (
+                <div key={company.name} className="rounded-xl border border-white/[0.06] bg-bg p-4">
+                  <div className="flex items-center justify-between gap-3 mb-3">
+                    <div className="flex items-center gap-3">
+                      <img src={company.logoUrl} alt={company.name} className="w-10 h-10 rounded-lg object-contain bg-white/5 p-1" />
+                      <div>
+                        <p className="font-semibold text-text-primary">{company.name}</p>
+                        <p className="text-xs text-text-muted">{company.domain}</p>
+                      </div>
+                    </div>
+                    <span className="text-sm font-mono text-accent">{company.fitScore}%</span>
+                  </div>
+                  <p className="text-sm text-text-secondary leading-relaxed">{company.reason}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="grid md:grid-cols-2 gap-5">
             <LanguageChart languages={result.languages} />
             <ContributionGraph contributions={result.contributions} />
           </div>
           <RepoInsights repos={result.topRepos} />
           <Suggestions suggestions={result.suggestions} />
+
+          {result.actionPlan.length > 0 && (
+            <div className="bg-bg-secondary rounded-2xl border border-white/[0.06] p-6">
+              <div className="flex items-center gap-2 mb-5">
+                <Sparkles className="w-4 h-4 text-accent" />
+                <h2 className="text-sm font-medium text-text-secondary uppercase tracking-widest font-mono">Action plan</h2>
+              </div>
+              <div className="space-y-4">
+                {result.actionPlan.map((plan) => (
+                  <div key={plan.title} className="rounded-xl border border-white/[0.06] bg-bg p-4">
+                    <h3 className="font-semibold text-text-primary mb-1">{plan.title}</h3>
+                    <p className="text-sm text-text-secondary mb-3">{plan.description}</p>
+                    <ul className="space-y-2">
+                      {plan.steps.map((step) => (
+                        <li key={step} className="flex gap-2 text-sm text-text-secondary">
+                          <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2" />
+                          <span>{step}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

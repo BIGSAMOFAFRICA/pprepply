@@ -75,6 +75,27 @@ export interface Suggestion {
   actionItems: string[];
 }
 
+export interface ActionPlanItem {
+  title: string;
+  description: string;
+  steps: string[];
+}
+
+export interface CompanyMatch {
+  name: string;
+  domain: string;
+  logoUrl: string;
+  fitScore: number;
+  reason: string;
+}
+
+export interface CompanyQualification {
+  company: string;
+  probability: number;
+  verdict: string;
+  message: string;
+}
+
 export interface AnalysisResult {
   user: GitHubUser;
   languages: LanguageStat[];
@@ -85,6 +106,12 @@ export interface AnalysisResult {
   suggestions: Suggestion[];
   totalStars: number;
   totalForks: number;
+  aiSummary: string;
+  keyStrengths: string[];
+  risks: string[];
+  actionPlan: ActionPlanItem[];
+  companyMatches: CompanyMatch[];
+  companyQualification?: CompanyQualification;
 }
 
 export interface SavedReport {
@@ -104,5 +131,11 @@ export interface SavedReport {
   topRepos: RepoInsight[] | null;
   contributions: ContributionData[] | null;
   suggestions: Suggestion[] | null;
+  aiSummary?: string | null;
+  keyStrengths?: string[] | null;
+  risks?: string[] | null;
+  actionPlan?: ActionPlanItem[] | null;
+  companyMatches?: CompanyMatch[] | null;
+  companyQualification?: CompanyQualification | null;
   createdAt: string;
 }

@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { fetchGitHubUser, fetchUserRepos, fetchLanguages, fetchContributions } from '@/lib/github';
-import { calculateDeveloperScore, generateSuggestions } from '@/lib/scoring';
+import {
+  calculateDeveloperScore,
+  generateSuggestions,
+  buildFallbackAIAnalysis,
+  buildCompanyMatches,
+} from '@/lib/scoring';
 import { prisma } from '@/lib/db';
 import { AnalysisResult, RepoInsight } from '@/types';
 
@@ -19,7 +24,6 @@ export async function POST(req: NextRequest) {
 
     const cleanUsername = username.trim().replace(/^@/, '');
 
-    // Fetch GitHub data
     const [user, repos] = await Promise.all([
       fetchGitHubUser(cleanUsername),
       fetchUserRepos(cleanUsername),
@@ -30,13 +34,9 @@ export async function POST(req: NextRequest) {
       fetchContributions(cleanUsername),
     ]);
 
-    // Calculate scores
     const { score, breakdown } = calculateDeveloperScore(user, repos, languages);
-
-    // Generate suggestions
     const suggestions = generateSuggestions(user, repos, breakdown);
 
-    // Top repos
     const topRepos: RepoInsight[] = repos
       .sort((a, b) => b.stargazers_count - a.stargazers_count)
       .slice(0, 8)
@@ -55,6 +55,13 @@ export async function POST(req: NextRequest) {
     const totalStars = repos.reduce((a, r) => a + r.stargazers_count, 0);
     const totalForks = repos.reduce((a, r) => a + r.forks_count, 0);
 
+    const fallback = buildFallbackAIAnalysis(user, repos, languages, score, breakdown);
+    const aiSummary = fallback.summary;
+    const keyStrengths = fallback.keyStrengths;
+    const risks = fallback.risks;
+    const actionPlan = fallback.actionPlan;
+    const companyMatches = fallback.companyMatches;
+
     const result: AnalysisResult = {
       user,
       languages,
@@ -65,9 +72,13 @@ export async function POST(req: NextRequest) {
       suggestions,
       totalStars,
       totalForks,
+      aiSummary,
+      keyStrengths,
+      risks,
+      actionPlan,
+      companyMatches,
     };
 
-    // Optionally save to DB
     if (save) {
       try {
         let dbUser = await prisma.user.findUnique({ where: { clerkId: userId } });
@@ -100,11 +111,15 @@ export async function POST(req: NextRequest) {
             topRepos: topRepos as object[],
             contributions: contributions as object[],
             suggestions: suggestions as object[],
+            aiSummary,
+            keyStrengths: keyStrengths as object,
+            risks: risks as object,
+            actionPlan: actionPlan as object,
+            companyMatches: companyMatches as object,
           },
         });
       } catch (dbErr) {
         console.error('DB save error:', dbErr);
-        // Don't fail the request if DB save fails
       }
     }
 
