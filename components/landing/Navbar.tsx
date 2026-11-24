@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useAuth, UserButton } from '@clerk/nextjs';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/Button';
+import { Logo } from '@/components/ui/Logo';
 
 export default function Navbar() {
   const { isSignedIn } = useAuth();
@@ -22,15 +23,8 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        {/* Brand */}
-        <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm shadow-pill">
-            P
-          </div>
-          <span className="font-bold text-ink text-lg tracking-tight">
-            Preppy
-          </span>
-        </Link>
+        {/* Brand Logo with priority loading */}
+        <Logo variant="full" size="md" priority />
 
         {/* Navigation */}
         <nav className="hidden md:flex items-center gap-6 text-xs sm:text-sm font-medium text-ink-muted">

@@ -1,36 +1,43 @@
 import { Code2, TrendingUp, Star, Lightbulb, Shield, BarChart3 } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
+import { IconTile } from '@/components/ui/Icon';
 
 const FEATURES = [
   {
     icon: BarChart3,
     title: 'Developer Score',
     description: 'A calibrated 0–100 index based on repository density, activity recency, documentation, and community traction.',
+    color: '#5B5BD6',
   },
   {
     icon: Code2,
     title: 'Stack Concentration',
     description: 'Visual breakdown of programming languages used across public projects with primary stack detection.',
+    color: '#3F9B7A',
   },
   {
     icon: TrendingUp,
     title: 'Contribution Momentum',
     description: '90-day activity timeline tracking active days, weekly consistency, and release velocity.',
+    color: '#5B5BD6',
   },
   {
     icon: Star,
     title: 'Repository Highlights',
     description: 'Deep dive into your most impactful open source work, star velocity, and project documentation.',
+    color: '#C98A2B',
   },
   {
     icon: Lightbulb,
     title: 'Portfolio Suggestions',
     description: 'Prioritized recommendations to polish READMEs, tags, topics, and profile positioning.',
+    color: '#C98A2B',
   },
   {
     icon: Shield,
     title: 'Saved Reports',
     description: 'Archive snapshots to track your portfolio evolution over months and share with recruiters.',
+    color: '#3F9B7A',
   },
 ];
 
@@ -51,22 +58,18 @@ export default function Features() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {FEATURES.map((f) => {
-            const Icon = f.icon;
-            return (
-              <Card
-                key={f.title}
-                radius="2xl"
-                className="p-6 border-line hover:border-primary/40 hover:shadow-soft-md transition-all duration-200"
-              >
-                <div className="w-10 h-10 rounded-xl bg-primary-soft text-primary flex items-center justify-center mb-4">
-                  <Icon className="w-5 h-5 stroke-[2]" />
-                </div>
-                <h3 className="text-base font-bold text-ink mb-2">{f.title}</h3>
-                <p className="text-xs sm:text-sm text-ink-muted leading-relaxed">{f.description}</p>
-              </Card>
-            );
-          })}
+          {FEATURES.map((f) => (
+            <Card
+              key={f.title}
+              radius="2xl"
+              className="p-6 border-line hover:border-primary/40 hover:shadow-soft-md transition-all duration-200 flex flex-col items-start"
+            >
+              {/* Soft tinted icon tile matching reference image */}
+              <IconTile icon={f.icon} size="md" color={f.color} className="mb-4" />
+              <h3 className="text-base font-bold text-ink mb-2">{f.title}</h3>
+              <p className="text-xs sm:text-sm text-ink-muted leading-relaxed">{f.description}</p>
+            </Card>
+          ))}
         </div>
       </div>
     </section>

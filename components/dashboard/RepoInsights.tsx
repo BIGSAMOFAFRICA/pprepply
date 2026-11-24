@@ -48,15 +48,30 @@ export default function RepoInsights({ repos }: Props) {
             )}
 
             <div className="flex items-center gap-3.5 text-xs text-ink-muted flex-wrap mt-auto">
-              {repo.language && (
-                <div className="flex items-center gap-1.5">
-                  <div
-                    className="w-2 h-2 rounded-full"
-                    style={{ backgroundColor: getLangColor(repo.language) }}
-                  />
-                  <span>{repo.language}</span>
-                </div>
-              )}
+              {repo.language && (() => {
+                const langLower = repo.language.toLowerCase();
+                const brandLogo =
+                  langLower === 'typescript' ? '/icons/brands/typescript.svg' :
+                  langLower === 'javascript' ? '/icons/brands/javascript.svg' :
+                  langLower === 'python' ? '/icons/brands/python.svg' :
+                  langLower === 'go' ? '/icons/brands/go.svg' :
+                  langLower === 'rust' ? '/icons/brands/rust.svg' : null;
+
+                return (
+                  <div className="flex items-center gap-1.5">
+                    {brandLogo ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={brandLogo} alt="" className="w-3.5 h-3.5 object-contain" aria-hidden="true" />
+                    ) : (
+                      <div
+                        className="w-2 h-2 rounded-full"
+                        style={{ backgroundColor: getLangColor(repo.language) }}
+                      />
+                    )}
+                    <span className="font-medium text-ink">{repo.language}</span>
+                  </div>
+                );
+              })()}
               <div className="flex items-center gap-1">
                 <Star className="w-3.5 h-3.5 text-status-warning" />
                 <span className="tabular-nums">{formatNumber(repo.stars)}</span>

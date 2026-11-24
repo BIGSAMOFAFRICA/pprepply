@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Coffee, Loader2, X } from 'lucide-react';
+import { Coffee, X } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { IconTile, Icon } from '@/components/ui/Icon';
 
 interface DonationModalProps {
   isOpen: boolean;
@@ -60,15 +61,14 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
       <div className="bg-white rounded-[24px] border border-line p-6 sm:p-8 w-full max-w-md shadow-floating relative animate-fade-in">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center text-ink-muted hover:text-ink hover:bg-bg transition-colors"
+          aria-label="Close modal"
+          className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center text-ink-muted hover:text-ink hover:bg-bg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
         >
-          <X className="w-4 h-4" />
+          <Icon name="X" size={16} strokeWidth={2} decorative />
         </button>
 
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-primary-soft text-primary flex items-center justify-center">
-            <Coffee className="w-5 h-5 stroke-[2]" />
-          </div>
+        <div className="flex items-center gap-3.5 mb-6">
+          <IconTile icon={Coffee} size="md" color="#5B5BD6" />
           <div>
             <h3 className="text-base font-bold text-ink">Support Preppy</h3>
             <p className="text-xs text-ink-muted">Independent developer portfolio intelligence</p>

@@ -10,14 +10,14 @@ import {
 } from '@/types';
 
 export const COMPANY_PIPELINE = [
-  { name: 'Google', domain: 'google.com', logoUrl: 'https://logo.clearbit.com/google.com', stack: ['typescript', 'python', 'java', 'go', 'cloud', 'javascript'] },
-  { name: 'Microsoft', domain: 'microsoft.com', logoUrl: 'https://logo.clearbit.com/microsoft.com', stack: ['typescript', 'python', 'csharp', 'azure', 'javascript', 'go'] },
-  { name: 'Meta', domain: 'meta.com', logoUrl: 'https://logo.clearbit.com/meta.com', stack: ['javascript', 'typescript', 'python', 'react', 'graphql', 'android'] },
-  { name: 'Amazon', domain: 'amazon.com', logoUrl: 'https://logo.clearbit.com/amazon.com', stack: ['java', 'javascript', 'python', 'aws', 'kubernetes', 'typescript'] },
-  { name: 'Stripe', domain: 'stripe.com', logoUrl: 'https://logo.clearbit.com/stripe.com', stack: ['javascript', 'typescript', 'ruby', 'python', 'react'] },
-  { name: 'GitHub', domain: 'github.com', logoUrl: 'https://logo.clearbit.com/github.com', stack: ['javascript', 'typescript', 'ruby', 'go', 'python', 'react'] },
-  { name: 'Netflix', domain: 'netflix.com', logoUrl: 'https://logo.clearbit.com/netflix.com', stack: ['java', 'javascript', 'python', 'kubernetes', 'scala'] },
-  { name: 'Linear', domain: 'linear.app', logoUrl: 'https://logo.clearbit.com/linear.app', stack: ['typescript', 'react', 'javascript', 'node', 'go'] },
+  { name: 'Google', domain: 'google.com', logoUrl: '/icons/brands/company-google.svg', stack: ['typescript', 'python', 'java', 'go', 'cloud', 'javascript'] },
+  { name: 'Microsoft', domain: 'microsoft.com', logoUrl: '/icons/brands/company-microsoft.svg', stack: ['typescript', 'python', 'csharp', 'azure', 'javascript', 'go'] },
+  { name: 'Meta', domain: 'meta.com', logoUrl: '/icons/brands/company-meta.svg', stack: ['javascript', 'typescript', 'python', 'react', 'graphql', 'android'] },
+  { name: 'Amazon', domain: 'amazon.com', logoUrl: '/icons/brands/company-amazon.svg', stack: ['java', 'javascript', 'python', 'aws', 'kubernetes', 'typescript'] },
+  { name: 'Stripe', domain: 'stripe.com', logoUrl: '/icons/brands/company-stripe.svg', stack: ['javascript', 'typescript', 'ruby', 'python', 'react'] },
+  { name: 'GitHub', domain: 'github.com', logoUrl: '/icons/brands/company-github.svg', stack: ['javascript', 'typescript', 'ruby', 'go', 'python', 'react'] },
+  { name: 'Netflix', domain: 'netflix.com', logoUrl: '/icons/brands/company-netflix.svg', stack: ['java', 'javascript', 'python', 'kubernetes', 'scala'] },
+  { name: 'Linear', domain: 'linear.app', logoUrl: '/icons/brands/company-linear.svg', stack: ['typescript', 'react', 'javascript', 'node', 'go'] },
 ];
 
 export function calculateDeveloperScore(
@@ -96,7 +96,7 @@ export function buildCompanyMatches(
     return {
       name: company.name,
       domain: company.domain,
-      logoUrl: `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${company.domain}&size=128`,
+      logoUrl: company.logoUrl,
       fitScore,
       reason,
     };
@@ -108,7 +108,7 @@ export function buildCompanyMatches(
     return [{
       name: 'GitHub',
       domain: 'github.com',
-      logoUrl: `https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://github.com&size=128`,
+      logoUrl: '/icons/brands/company-github.svg',
       fitScore: 60,
       reason: 'Your profile is showing early traction but needs clearer positioning and stronger proof points.',
     }];

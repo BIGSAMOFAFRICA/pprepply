@@ -296,15 +296,25 @@ export default function AnalyzeForm() {
                 {result.companyMatches.map((company) => (
                   <div
                     key={company.name}
-                    className="p-4 rounded-xl border border-line bg-bg hover:border-primary/40 transition-colors"
+                    className="p-4 rounded-xl border border-line bg-white hover:border-primary/40 hover:shadow-soft transition-all"
                   >
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="font-semibold text-sm text-ink">{company.name}</span>
+                    <div className="flex items-center gap-2.5 mb-2.5">
+                      <div className="w-8 h-8 rounded-lg bg-bg-subtle border border-line p-1.5 flex items-center justify-center flex-shrink-0">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={company.logoUrl || `/icons/brands/company-${company.name.toLowerCase()}.svg`}
+                          alt={`${company.name} logo`}
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <span className="font-semibold text-sm text-ink truncate block">{company.name}</span>
+                      </div>
                       <span className="text-xs font-bold text-primary tabular-nums">
                         {company.fitScore}% Fit
                       </span>
                     </div>
-                    <p className="text-xs text-ink-muted line-clamp-2">{company.reason}</p>
+                    <p className="text-xs text-ink-muted line-clamp-2 leading-relaxed">{company.reason}</p>
                   </div>
                 ))}
               </div>

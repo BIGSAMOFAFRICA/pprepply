@@ -23,15 +23,15 @@ import {
 } from 'lucide-react';
 
 const SKILLS = [
-  { name: 'Next.js', icon: Globe, color: 'text-blue-400' },
-  { name: 'React', icon: Code, color: 'text-cyan-400' },
-  { name: 'TypeScript', icon: Cpu, color: 'text-blue-500' },
-  { name: 'Tailwind CSS', icon: Zap, color: 'text-teal-400' },
-  { name: 'Prisma', icon: Database, color: 'text-indigo-400' },
-  { name: 'PostgreSQL', icon: Database, color: 'text-blue-600' },
-  { name: 'Supabase', icon: Database, color: 'text-green-400' },
-  { name: 'Clerk API', icon: Shield, color: 'text-purple-400' },
-  { name: 'GitHub API', icon: Github, color: 'text-gray-300' },
+  { name: 'Next.js', logo: '/icons/brands/nextjs.svg' },
+  { name: 'React', logo: '/icons/brands/react.svg' },
+  { name: 'TypeScript', logo: '/icons/brands/typescript.svg' },
+  { name: 'Tailwind CSS', logo: '/icons/brands/tailwindcss.svg' },
+  { name: 'Prisma', logo: '/icons/brands/prisma.svg' },
+  { name: 'PostgreSQL', logo: '/icons/brands/postgresql.svg' },
+  { name: 'Supabase', logo: '/icons/brands/supabase.svg' },
+  { name: 'Clerk', logo: '/icons/brands/clerk.svg' },
+  { name: 'GitHub', logo: '/icons/brands/github.svg' },
 ];
 
 const PROJECTS = [
@@ -186,18 +186,18 @@ export default function CreatorSection() {
           </div>
 
           <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-4">
-            {SKILLS.map((skill, index) => {
-              const Icon = skill.icon;
-              return (
-                <div
-                  key={index}
-                  className="bg-bg-secondary rounded-lg border border-white/[0.06] p-4 text-center card-hover group"
-                >
-                  <Icon className={`w-8 h-8 mx-auto mb-2 ${skill.color} group-hover:scale-110 transition-transform`} />
-                  <p className="text-xs font-medium text-text-primary">{skill.name}</p>
+            {SKILLS.map((skill, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-xl border border-line p-4 text-center shadow-soft hover:shadow-soft-md transition-all group"
+              >
+                <div className="w-9 h-9 mx-auto mb-2 flex items-center justify-center p-1 group-hover:scale-110 transition-transform">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={skill.logo} alt={skill.name} className="w-full h-full object-contain" />
                 </div>
-              );
-            })}
+                <p className="text-xs font-semibold text-ink truncate">{skill.name}</p>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -305,7 +305,7 @@ export default function CreatorSection() {
             </div>
 
             <p className="text-text-muted text-sm mt-6">
-              Every great developer started somewhere. Your journey begins with a single commit. 🚀
+              Every great developer started somewhere. Your journey begins with a single commit.
             </p>
           </div>
         </div>

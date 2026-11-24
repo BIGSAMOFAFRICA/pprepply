@@ -6,7 +6,7 @@ import { useAuth } from '@clerk/nextjs';
 import { Button } from '@/components/ui/Button';
 
 const STATS = [
-  { value: '10K+', label: 'Profiles Evaluated' },
+  { value: '10+', label: 'Profiles Evaluated' },
   { value: '96%', label: 'Signal Accuracy' },
   { value: '5 Dimensions', label: 'Score Breakdown' },
   { value: '< 5s', label: 'Instant Audit' },
@@ -19,8 +19,8 @@ export default function Hero() {
     <section className="relative min-h-[90vh] flex flex-col items-center justify-center px-4 pt-28 pb-16 bg-[#F6F5FB]">
       {/* Soft badge */}
       <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-soft text-primary text-xs font-semibold mb-6">
-        <Sparkles className="w-3.5 h-3.5" />
-        <span>Objective GitHub Portfolio Intelligence</span>
+        {/* <Sparkles className="w-3.5 h-3.5" /> */}
+        {/* <span>Objective GitHub Portfolio Intelligence</span> */}
       </div>
 
       {/* Main Headline */}

@@ -151,19 +151,30 @@ export default async function DashboardPage() {
               }))}
             />
 
-            {/* Top Repositories from Latest Report */}
+            {/* Top Repositories from Latest Report with real tech stack logos */}
             <CompactListCard
               title="Featured Repositories"
               actionHref="/dashboard/analyze"
               actionLabel="Analyze more"
-              items={rawTopRepos.slice(0, 5).map((repo, i) => ({
-                id: `repo-${i}`,
-                title: repo.name,
-                subtitle: repo.language || repo.description || 'Open source project',
-                value: `★ ${formatNumber(repo.stars)}`,
-                valueLabel: 'Stars',
-                thumbnailUrl: null,
-              }))}
+              items={rawTopRepos.slice(0, 5).map((repo, i) => {
+                const langKey = (repo.language || '').toLowerCase();
+                const brandLogo =
+                  langKey === 'typescript' ? '/icons/brands/typescript.svg' :
+                  langKey === 'javascript' ? '/icons/brands/javascript.svg' :
+                  langKey === 'python' ? '/icons/brands/python.svg' :
+                  langKey === 'go' ? '/icons/brands/go.svg' :
+                  langKey === 'rust' ? '/icons/brands/rust.svg' :
+                  null;
+
+                return {
+                  id: `repo-${i}`,
+                  title: repo.name,
+                  subtitle: repo.language || repo.description || 'Open source project',
+                  value: formatNumber(repo.stars),
+                  valueLabel: 'Stars',
+                  thumbnailUrl: brandLogo,
+                };
+              })}
               emptyMessage="No repositories available for this profile"
             />
           </div>
