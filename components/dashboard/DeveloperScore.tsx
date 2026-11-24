@@ -1,6 +1,8 @@
 'use client';
+
 import { ScoreBreakdown } from '@/types';
 import { getScoreLabel } from '@/lib/scoring';
+import { Card } from '@/components/ui/Card';
 
 interface Props {
   score: number;
@@ -17,69 +19,84 @@ const DIMENSIONS = [
 
 export default function DeveloperScore({ score, breakdown }: Props) {
   const { label, color } = getScoreLabel(score);
-  const radius = 80;
+  const radius = 75;
+  const strokeWidth = 10;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (score / 100) * circumference;
 
   return (
-    <div className="bg-bg-secondary rounded-2xl border border-white/[0.06] p-6">
-      <h2 className="text-sm font-medium text-text-secondary mb-6 uppercase tracking-widest font-mono">
-        Developer Score
-      </h2>
+    <Card radius="2xl" className="p-6 border-[#E7E6F0]">
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h3 className="text-base font-bold text-ink">Developer Score Breakdown</h3>
+          <p className="text-xs text-ink-muted">Algorithmic evaluation across 5 key dimensions</p>
+        </div>
+        <span
+          className="text-xs font-semibold px-2.5 py-1 rounded-full"
+          style={{ backgroundColor: `${color}15`, color }}
+        >
+          {label}
+        </span>
+      </div>
+
       <div className="flex flex-col md:flex-row gap-8 items-center">
-        {/* Circle */}
+        {/* Radial Score Meter */}
         <div className="relative flex-shrink-0">
-          <svg width="200" height="200" className="score-ring">
-            {/* Background track */}
+          <svg width="180" height="180">
+            {/* Background Track */}
             <circle
-              cx="100" cy="100" r={radius}
+              cx="90"
+              cy="90"
+              r={radius}
               fill="none"
-              stroke="rgba(255,255,255,0.06)"
-              strokeWidth="12"
+              stroke="#ECEBFA"
+              strokeWidth={strokeWidth}
             />
-            {/* Progress */}
+            {/* Progress Stroke */}
             <circle
-              cx="100" cy="100" r={radius}
+              cx="90"
+              cy="90"
+              r={radius}
               fill="none"
               stroke={color}
-              strokeWidth="12"
+              strokeWidth={strokeWidth}
               strokeLinecap="round"
               strokeDasharray={circumference}
               strokeDashoffset={strokeDashoffset}
-              transform="rotate(-90 100 100)"
-              style={{ transition: 'stroke-dashoffset 1.5s ease' }}
+              transform="rotate(-90 90 90)"
+              className="transition-all duration-1000 ease-out"
             />
           </svg>
-          {/* Center text */}
+
+          {/* Center Score Figure */}
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-5xl font-bold font-mono" style={{ color }}>
+            <span className="text-4xl font-extrabold text-ink tabular-nums">
               {Math.round(score)}
             </span>
-            <span className="text-sm font-medium mt-1" style={{ color }}>
-              {label}
-            </span>
+            <span className="text-xs font-medium text-ink-muted mt-0.5">/ 100</span>
           </div>
         </div>
 
-        {/* Breakdown */}
-        <div className="flex-1 space-y-3 w-full">
-          {DIMENSIONS.map(({ key, label, max }) => {
-            const val = breakdown[key];
-            const pct = (val / max) * 100;
+        {/* 5-Dimensional Breakdown Bars */}
+        <div className="flex-1 space-y-3.5 w-full">
+          {DIMENSIONS.map(({ key, label: dimLabel, max }) => {
+            const val = breakdown[key] || 0;
+            const pct = Math.min(100, Math.max(0, (val / max) * 100));
+
             return (
               <div key={key}>
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-sm text-text-secondary">{label}</span>
-                  <span className="text-sm font-mono font-medium text-text-primary">
-                    {val}<span className="text-text-muted">/{max}</span>
+                <div className="flex items-center justify-between mb-1.5 text-xs">
+                  <span className="font-medium text-ink">{dimLabel}</span>
+                  <span className="font-semibold text-ink tabular-nums">
+                    {val} <span className="text-ink-muted font-normal">/ {max}</span>
                   </span>
                 </div>
-                <div className="h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
+                <div className="h-2 bg-[#ECEBFA] rounded-full overflow-hidden">
                   <div
-                    className="h-full rounded-full transition-all duration-1000"
+                    className="h-full rounded-full transition-all duration-700 ease-out"
                     style={{
                       width: `${pct}%`,
-                      background: pct > 70 ? '#00E5A0' : pct > 40 ? '#22D3EE' : '#FBBF24',
+                      backgroundColor: pct >= 80 ? '#3F9B7A' : pct >= 50 ? '#5B5BD6' : '#C98A2B',
                     }}
                   />
                 </div>
@@ -88,6 +105,6 @@ export default function DeveloperScore({ score, breakdown }: Props) {
           })}
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

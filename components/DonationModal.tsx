@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Coffee, Loader2 } from 'lucide-react';
+import { Coffee, Loader2, X } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
 
 interface DonationModalProps {
   isOpen: boolean;
@@ -44,9 +45,8 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
         return;
       }
 
-      // Redirect to Paystack payment page
       window.location.href = data.authorization_url;
-    } catch (err) {
+    } catch {
       setError('An error occurred. Please try again.');
     } finally {
       setIsLoading(false);
@@ -56,21 +56,28 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-bg-secondary rounded-2xl border border-white/[0.06] p-6 w-full max-w-md">
+    <div className="fixed inset-0 bg-ink/30 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-[24px] border border-line p-6 sm:p-8 w-full max-w-md shadow-floating relative animate-fade-in">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center text-ink-muted hover:text-ink hover:bg-bg transition-colors"
+        >
+          <X className="w-4 h-4" />
+        </button>
+
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-accent-subtle border border-accent/20 flex items-center justify-center">
-            <Coffee className="w-5 h-5 text-accent" />
+          <div className="w-10 h-10 rounded-xl bg-primary-soft text-primary flex items-center justify-center">
+            <Coffee className="w-5 h-5 stroke-[2]" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-text-primary">Support Preppy</h3>
-            <p className="text-sm text-text-secondary">Your support helps keep the lights on</p>
+            <h3 className="text-base font-bold text-ink">Support Preppy</h3>
+            <p className="text-xs text-ink-muted">Independent developer portfolio intelligence</p>
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-text-primary mb-2">
+            <label htmlFor="email" className="block text-xs font-semibold text-ink mb-1.5">
               Email Address
             </label>
             <input
@@ -78,14 +85,14 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 bg-bg-card border border-white/[0.06] rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent"
-              placeholder="your@email.com"
+              className="w-full h-11 px-3.5 rounded-xl bg-bg border border-line text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:border-primary focus:bg-white transition-all"
+              placeholder="developer@example.com"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="amount" className="block text-sm font-medium text-text-primary mb-2">
+            <label htmlFor="amount" className="block text-xs font-semibold text-ink mb-1.5">
               Donation Amount (₦)
             </label>
             <input
@@ -93,52 +100,41 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
               id="amount"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              className="w-full px-3 py-2 bg-bg-card border border-white/[0.06] rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-accent"
+              className="w-full h-11 px-3.5 rounded-xl bg-bg border border-line text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:border-primary focus:bg-white transition-all"
               placeholder="1000"
               min="100"
               step="100"
               required
             />
-            <p className="text-xs text-text-muted mt-1">Minimum: ₦100</p>
           </div>
 
           {error && (
-            <div className="text-red-400 text-sm bg-red-500/10 border border-red-500/20 rounded-lg p-3">
+            <p className="text-xs text-status-danger p-2.5 rounded-lg bg-status-danger-soft border border-status-danger/20">
               {error}
-            </div>
+            </p>
           )}
 
-          <div className="flex gap-3 pt-2">
-            <button
+          <div className="pt-2 flex gap-3">
+            <Button
               type="button"
+              variant="outline"
+              size="md"
               onClick={onClose}
-              className="flex-1 px-4 py-2 text-text-secondary border border-white/[0.06] rounded-lg hover:bg-white/[0.03] transition-colors"
+              className="flex-1"
             >
               Cancel
-            </button>
-            <button
+            </Button>
+            <Button
               type="submit"
-              disabled={isLoading}
-              className="flex-1 btn-primary flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              variant="primary"
+              size="md"
+              loading={isLoading}
+              className="flex-1"
             >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Processing...
-                </>
-              ) : (
-                <>
-                  <Coffee className="w-4 h-4" />
-                  Donate
-                </>
-              )}
-            </button>
+              Proceed to Pay
+            </Button>
           </div>
         </form>
-
-        <p className="text-xs text-text-muted text-center mt-4">
-          Secure payment powered by Paystack
-        </p>
       </div>
     </div>
   );

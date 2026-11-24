@@ -8,74 +8,58 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-syne)', 'sans-serif'],
-        mono: ['var(--font-jetbrains)', 'monospace'],
-        display: ['var(--font-syne)', 'sans-serif'],
+        sans: ['Plus Jakarta Sans', 'DM Sans', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Fira Code', 'Menlo', 'monospace'],
       },
       colors: {
         bg: {
-          DEFAULT: '#080C14',
-          secondary: '#0D1420',
-          card: '#111827',
-          hover: '#1a2436',
+          DEFAULT: '#F6F5FB',
+          subtle: '#F1F0F7',
+          surface: '#FFFFFF',
+          hover: '#F8F7FD',
         },
-        accent: {
-          DEFAULT: '#00E5A0',
-          dim: '#00b37e',
-          glow: 'rgba(0,229,160,0.15)',
-          subtle: 'rgba(0,229,160,0.08)',
+        primary: {
+          DEFAULT: '#5B5BD6',
+          hover: '#4D4DBF',
+          soft: '#ECEBFA',
+          subtle: '#F4F3FC',
         },
-        cyan: {
-          accent: '#22D3EE',
-          glow: 'rgba(34,211,238,0.15)',
+        ink: {
+          DEFAULT: '#1F2340',
+          muted: '#6B7089',
+          faint: '#9EA3B8',
         },
-        border: {
-          DEFAULT: 'rgba(255,255,255,0.06)',
-          accent: 'rgba(0,229,160,0.3)',
+        line: {
+          DEFAULT: '#E7E6F0',
+          soft: '#F0EFF6',
         },
-        text: {
-          primary: '#F0F4FF',
-          secondary: '#8899AA',
-          muted: '#4A5568',
+        status: {
+          success: '#3F9B7A',
+          'success-soft': '#EAF6F1',
+          warning: '#C98A2B',
+          'warning-soft': '#FDF6EB',
+          danger: '#C0524F',
+          'danger-soft': '#FBECEC',
         },
       },
-      backgroundImage: {
-        'grid-pattern': 'radial-gradient(rgba(0,229,160,0.06) 1px, transparent 1px)',
-        'glow-accent': 'radial-gradient(ellipse at top, rgba(0,229,160,0.12) 0%, transparent 60%)',
-        'glow-cyan': 'radial-gradient(ellipse at bottom right, rgba(34,211,238,0.1) 0%, transparent 60%)',
-      },
-      backgroundSize: {
-        'grid': '40px 40px',
+      borderRadius: {
+        'sm': '8px',
+        'md': '12px',
+        'lg': '16px',
+        'xl': '20px',
+        '2xl': '24px',
+        '3xl': '28px',
+        'pill': '9999px',
       },
       boxShadow: {
-        'glow-sm': '0 0 20px rgba(0,229,160,0.15)',
-        'glow-md': '0 0 40px rgba(0,229,160,0.2)',
-        'glow-lg': '0 0 80px rgba(0,229,160,0.15)',
-        'card': '0 1px 0 rgba(255,255,255,0.04), 0 4px 20px rgba(0,0,0,0.4)',
+        'soft': '0 2px 10px rgba(31, 35, 64, 0.04)',
+        'soft-md': '0 4px 20px rgba(31, 35, 64, 0.06)',
+        'soft-lg': '0 8px 30px rgba(31, 35, 64, 0.08)',
+        'floating': '0 12px 36px -4px rgba(31, 35, 64, 0.1)',
+        'pill': '0 4px 16px rgba(91, 91, 214, 0.12)',
       },
-      animation: {
-        'fade-up': 'fadeUp 0.6s ease forwards',
-        'fade-in': 'fadeIn 0.4s ease forwards',
-        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
-        'scan': 'scan 3s linear infinite',
-      },
-      keyframes: {
-        fadeUp: {
-          from: { opacity: '0', transform: 'translateY(20px)' },
-          to: { opacity: '1', transform: 'translateY(0)' },
-        },
-        fadeIn: {
-          from: { opacity: '0' },
-          to: { opacity: '1' },
-        },
-        pulseGlow: {
-          '0%, 100%': { boxShadow: '0 0 20px rgba(0,229,160,0.2)' },
-          '50%': { boxShadow: '0 0 40px rgba(0,229,160,0.4)' },
-        },
-        scan: {
-          '0%': { transform: 'translateY(-100%)' },
-          '100%': { transform: 'translateY(100vh)' },
-        },
+      transitionDuration: {
+        DEFAULT: '180ms',
       },
     },
   },

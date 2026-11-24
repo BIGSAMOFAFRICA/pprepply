@@ -1,6 +1,8 @@
 'use client';
+
 import { LanguageStat } from '@/types';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
+import { Card } from '@/components/ui/Card';
 
 interface Props {
   languages: LanguageStat[];
@@ -10,9 +12,9 @@ const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: Array<
   if (active && payload && payload.length) {
     const lang = payload[0].payload;
     return (
-      <div className="bg-bg-card border border-white/10 rounded-lg px-3 py-2 text-sm">
-        <p className="text-text-primary font-medium">{lang.name}</p>
-        <p className="text-text-secondary font-mono">{lang.percentage}%</p>
+      <div className="bg-white border border-[#E7E6F0] rounded-xl px-3 py-2 text-xs shadow-soft-md">
+        <p className="text-ink font-semibold">{lang.name}</p>
+        <p className="text-ink-muted tabular-nums">{lang.percentage}% of codebase</p>
       </div>
     );
   }
@@ -28,25 +30,31 @@ export default function LanguageChart({ languages }: Props) {
 
   const chartData = [
     ...top5,
-    ...(othersPct > 0 ? [{ name: 'Others', percentage: Math.round(othersPct * 10) / 10, bytes: 0, color: '#4A5568' }] : []),
+    ...(othersPct > 0 ? [{ name: 'Other', percentage: Math.round(othersPct * 10) / 10, bytes: 0, color: '#9EA3B8' }] : []),
   ];
 
   return (
-    <div className="bg-bg-secondary rounded-2xl border border-white/[0.06] p-6">
-      <h2 className="text-sm font-medium text-text-secondary mb-6 uppercase tracking-widest font-mono">
-        Language Distribution
-      </h2>
-      <div className="flex flex-col md:flex-row gap-6 items-center">
-        {/* Donut */}
-        <div className="flex-shrink-0 w-48 h-48">
+    <Card radius="2xl" className="p-6 border-[#E7E6F0]">
+      <div className="flex items-center justify-between mb-5">
+        <div>
+          <h3 className="text-base font-bold text-ink">Language Breakdown</h3>
+          <p className="text-xs text-ink-muted">Code composition across public repositories</p>
+        </div>
+      </div>
+
+      <div className="flex flex-col sm:flex-row gap-6 items-center">
+        {/* Donut Chart */}
+        <div className="flex-shrink-0 w-44 h-44">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
                 data={chartData}
-                cx="50%" cy="50%"
-                innerRadius={55} outerRadius={80}
+                cx="50%"
+                cy="50%"
+                innerRadius={50}
+                outerRadius={75}
                 dataKey="percentage"
-                paddingAngle={2}
+                paddingAngle={3}
               >
                 {chartData.map((entry, i) => (
                   <Cell key={i} fill={entry.color} stroke="transparent" />
@@ -59,18 +67,21 @@ export default function LanguageChart({ languages }: Props) {
 
         {/* Legend */}
         <div className="flex-1 space-y-2.5 w-full">
-          {languages.map((lang) => (
-            <div key={lang.name} className="flex items-center gap-3">
-              <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: lang.color }} />
-              <span className="text-sm text-text-secondary flex-1 min-w-0 truncate">{lang.name}</span>
+          {languages.slice(0, 6).map((lang) => (
+            <div key={lang.name} className="flex items-center gap-3 text-xs">
+              <div
+                className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                style={{ backgroundColor: lang.color }}
+              />
+              <span className="text-ink font-medium flex-1 truncate">{lang.name}</span>
               <div className="flex items-center gap-2">
-                <div className="w-24 h-1.5 bg-white/[0.06] rounded-full overflow-hidden hidden sm:block">
+                <div className="w-20 h-1.5 bg-[#ECEBFA] rounded-full overflow-hidden hidden sm:block">
                   <div
                     className="h-full rounded-full"
-                    style={{ width: `${lang.percentage}%`, background: lang.color }}
+                    style={{ width: `${lang.percentage}%`, backgroundColor: lang.color }}
                   />
                 </div>
-                <span className="text-sm font-mono text-text-primary w-10 text-right">
+                <span className="font-semibold text-ink tabular-nums w-10 text-right">
                   {lang.percentage}%
                 </span>
               </div>
@@ -78,6 +89,6 @@ export default function LanguageChart({ languages }: Props) {
           ))}
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

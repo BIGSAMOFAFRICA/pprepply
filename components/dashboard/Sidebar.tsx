@@ -1,9 +1,12 @@
 'use client';
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { UserButton } from '@clerk/nextjs';
 import {
-  LayoutDashboard, Search, FileText, Settings, ChevronRight,
+  LayoutDashboard,
+  Search,
+  FileText,
+  Sparkles,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -17,24 +20,50 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-60 bg-bg-secondary border-r border-white/[0.06] flex flex-col z-40">
-      {/* Logo */}
-      <div className="h-16 flex items-center px-5 border-b border-white/[0.06]">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-accent flex items-center justify-center">
-            <span className="text-bg font-bold text-xs font-mono">P</span>
-          </div>
-          <span className="font-bold text-text-primary text-lg">
-            Preppy<span className="text-accent">.</span>
-          </span>
-        </Link>
-      </div>
+    <>
+      {/* Desktop Floating Pill Sidebar */}
+      <aside className="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 z-40 flex-col items-center">
+        <div className="bg-white/95 backdrop-blur-md border border-line rounded-pill p-3 shadow-floating flex flex-col items-center gap-6">
+          {/* Logo Brand Icon */}
+          <Link
+            href="/dashboard"
+            className="w-11 h-11 rounded-full bg-primary flex items-center justify-center text-white font-bold text-base shadow-pill hover:bg-primary-hover transition-colors"
+            title="Preppy"
+          >
+            P
+          </Link>
 
-      {/* Nav */}
-      <nav className="flex-1 p-3 space-y-1">
-        <p className="text-text-muted text-[10px] font-mono uppercase tracking-widest px-3 py-2 mt-2">
-          Navigation
-        </p>
+          {/* Navigation Pill Items */}
+          <nav className="flex flex-col items-center gap-2">
+            {NAV_ITEMS.map(({ href, icon: Icon, label }) => {
+              const active = pathname === href || (href !== '/dashboard' && pathname.startsWith(href));
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  aria-label={label}
+                  title={label}
+                  className={cn(
+                    'w-11 h-11 rounded-full flex items-center justify-center transition-all duration-200 relative group',
+                    active
+                      ? 'bg-primary text-white shadow-pill'
+                      : 'text-ink-muted hover:text-ink hover:bg-bg'
+                  )}
+                >
+                  <Icon className="w-5 h-5 stroke-[1.8]" />
+                  {/* Tooltip on hover */}
+                  <span className="absolute left-14 px-2.5 py-1 bg-ink text-white text-xs font-medium rounded-md whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity shadow-md">
+                    {label}
+                  </span>
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+      </aside>
+
+      {/* Mobile / Tablet Bottom Navigation Bar */}
+      <nav className="lg:hidden fixed bottom-4 left-4 right-4 z-50 bg-white/95 backdrop-blur-md border border-line rounded-pill px-6 py-2.5 shadow-floating flex items-center justify-around">
         {NAV_ITEMS.map(({ href, icon: Icon, label }) => {
           const active = pathname === href || (href !== '/dashboard' && pathname.startsWith(href));
           return (
@@ -42,29 +71,23 @@ export default function Sidebar() {
               key={href}
               href={href}
               className={cn(
-                'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all group',
-                active
-                  ? 'bg-accent-subtle text-accent border border-accent/20'
-                  : 'text-text-secondary hover:text-text-primary hover:bg-white/[0.04]'
+                'flex flex-col items-center gap-1 py-1 px-3 rounded-full transition-all text-xs font-medium min-h-[44px] justify-center',
+                active ? 'text-primary' : 'text-ink-muted hover:text-ink'
               )}
             >
-              <Icon className="w-4 h-4 flex-shrink-0" />
-              <span className="flex-1">{label}</span>
-              {active && <ChevronRight className="w-3 h-3 opacity-60" />}
+              <div
+                className={cn(
+                  'w-8 h-8 rounded-full flex items-center justify-center transition-all',
+                  active && 'bg-primary-soft text-primary'
+                )}
+              >
+                <Icon className="w-4 h-4 stroke-[1.8]" />
+              </div>
+              <span className="text-[11px]">{label}</span>
             </Link>
           );
         })}
       </nav>
-
-      {/* User section */}
-      <div className="p-3 border-t border-white/[0.06]">
-        <div className="flex items-center gap-3 px-2 py-2.5 rounded-lg">
-          <UserButton afterSignOutUrl="/" />
-          <div className="flex-1 min-w-0">
-            <p className="text-xs text-text-secondary truncate">My Account</p>
-          </div>
-        </div>
-      </div>
-    </aside>
+    </>
   );
 }

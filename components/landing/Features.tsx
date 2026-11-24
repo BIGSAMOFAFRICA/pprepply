@@ -1,85 +1,70 @@
-import { Code2, TrendingUp, Star, Lightbulb, Shield, BarChart2 } from 'lucide-react';
+import { Code2, TrendingUp, Star, Lightbulb, Shield, BarChart3 } from 'lucide-react';
+import { Card } from '@/components/ui/Card';
 
 const FEATURES = [
   {
-    icon: BarChart2,
+    icon: BarChart3,
     title: 'Developer Score',
-    description: 'Get a comprehensive score from 0–100 based on repositories, contributions, language diversity, and documentation quality.',
-    color: '#00E5A0',
+    description: 'A calibrated 0–100 index based on repository density, activity recency, documentation, and community traction.',
   },
   {
     icon: Code2,
-    title: 'Language Analytics',
-    description: 'Visual breakdown of your programming language usage across all repositories with trend analysis.',
-    color: '#22D3EE',
+    title: 'Stack Concentration',
+    description: 'Visual breakdown of programming languages used across public projects with primary stack detection.',
   },
   {
     icon: TrendingUp,
-    title: 'Contribution Trends',
-    description: 'Track your commit frequency, activity streaks, and identify peak coding periods over time.',
-    color: '#818CF8',
+    title: 'Contribution Momentum',
+    description: '90-day activity timeline tracking active days, weekly consistency, and release velocity.',
   },
   {
     icon: Star,
-    title: 'Repository Insights',
-    description: 'Deep dive into your most impactful projects — stars, forks, open issues, and community engagement.',
-    color: '#FBBF24',
+    title: 'Repository Highlights',
+    description: 'Deep dive into your most impactful open source work, star velocity, and project documentation.',
   },
   {
     icon: Lightbulb,
-    title: 'Smart Suggestions',
-    description: 'AI-generated, actionable recommendations to improve your profile visibility and portfolio quality.',
-    color: '#F472B6',
+    title: 'Portfolio Suggestions',
+    description: 'Prioritized recommendations to polish READMEs, tags, topics, and profile positioning.',
   },
   {
     icon: Shield,
     title: 'Saved Reports',
-    description: 'Save analysis snapshots to track your progress over time and share with recruiters or teams.',
-    color: '#34D399',
+    description: 'Archive snapshots to track your portfolio evolution over months and share with recruiters.',
   },
 ];
 
 export default function Features() {
   return (
-    <section id="features" className="relative py-32 px-4">
+    <section id="features" className="py-24 px-4 sm:px-6 bg-white border-y border-line">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.03] text-text-secondary text-xs font-mono mb-6">
-            FEATURES
-          </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-4">
-            Everything you need to{' '}
-            <span className="shimmer-text">level up</span>
+        <div className="text-center max-w-xl mx-auto mb-16">
+          <span className="text-xs font-semibold text-primary uppercase tracking-wider bg-primary-soft px-3 py-1 rounded-full">
+            Key Capabilities
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-bold text-ink tracking-tight mt-3 mb-2">
+            Clear signal without the fluff
           </h2>
-          <p className="text-text-secondary text-lg max-w-xl mx-auto">
-            Comprehensive analysis tools built for developers who care about their craft.
+          <p className="text-sm text-ink-muted">
+            Engineered to give you actionable clarity on your GitHub portfolio.
           </p>
         </div>
 
-        {/* Feature grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {FEATURES.map((feature) => {
-            const Icon = feature.icon;
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {FEATURES.map((f) => {
+            const Icon = f.icon;
             return (
-              <div
-                key={feature.title}
-                className="group relative p-6 rounded-2xl border border-white/[0.06] bg-bg-secondary card-hover cursor-default"
+              <Card
+                key={f.title}
+                radius="2xl"
+                className="p-6 border-line hover:border-primary/40 hover:shadow-soft-md transition-all duration-200"
               >
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
-                  style={{ background: `${feature.color}18`, border: `1px solid ${feature.color}30` }}
-                >
-                  <Icon className="w-5 h-5" style={{ color: feature.color }} />
+                <div className="w-10 h-10 rounded-xl bg-primary-soft text-primary flex items-center justify-center mb-4">
+                  <Icon className="w-5 h-5 stroke-[2]" />
                 </div>
-                <h3 className="text-text-primary font-semibold text-lg mb-2">{feature.title}</h3>
-                <p className="text-text-secondary text-sm leading-relaxed">{feature.description}</p>
-                {/* Hover glow */}
-                <div
-                  className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                  style={{ background: `radial-gradient(ellipse at top left, ${feature.color}08 0%, transparent 60%)` }}
-                />
-              </div>
+                <h3 className="text-base font-bold text-ink mb-2">{f.title}</h3>
+                <p className="text-xs sm:text-sm text-ink-muted leading-relaxed">{f.description}</p>
+              </Card>
             );
           })}
         </div>

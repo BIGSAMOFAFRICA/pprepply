@@ -1,133 +1,57 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --font-syne: 'Syne', sans-serif;
-  --font-jetbrains: 'JetBrains Mono', monospace;
-}
-
 * {
   box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
 
 html, body {
-  max-width: 100vw;
-  overflow-x: hidden;
-  background-color: #080C14;
-  color: #F0F4FF;
-  font-family: var(--font-syne);
+  background-color: #F6F5FB;
+  color: #1F2340;
+  min-height: 100%;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #0D1420; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(0,229,160,0.4); }
-
-/* Selection */
-::selection { background: rgba(0,229,160,0.25); color: #F0F4FF; }
-
-/* Animations */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+::-webkit-scrollbar-track {
+  background: transparent;
 }
-@keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
+::-webkit-scrollbar-thumb {
+  background: #E7E6F0;
+  border-radius: 9999px;
 }
-@keyframes spin-slow {
-  to { transform: rotate(360deg); }
-}
-@keyframes counter {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+::-webkit-scrollbar-thumb:hover {
+  background: #9EA3B8;
 }
 
-.animate-fade-up {
-  animation: fadeUp 0.6s ease forwards;
-  opacity: 0;
-}
-.animate-fade-in {
-  animation: fadeIn 0.4s ease forwards;
-}
-.delay-100 { animation-delay: 0.1s; }
-.delay-200 { animation-delay: 0.2s; }
-.delay-300 { animation-delay: 0.3s; }
-.delay-400 { animation-delay: 0.4s; }
-.delay-500 { animation-delay: 0.5s; }
-
-.shimmer-text {
-  background: linear-gradient(90deg, #00E5A0 0%, #22D3EE 40%, #818CF8 60%, #00E5A0 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 4s linear infinite;
+/* Tabular figures for numerical statistics */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
 }
 
-.glow-border {
-  border: 1px solid rgba(0,229,160,0.3);
-  box-shadow: 0 0 20px rgba(0,229,160,0.1), inset 0 0 20px rgba(0,229,160,0.03);
+/* Card utilities */
+.card-soft {
+  background: #FFFFFF;
+  border: 1px solid #E7E6F0;
+  border-radius: 24px;
+  box-shadow: 0 2px 10px rgba(31, 35, 64, 0.04);
 }
 
-.card-glass {
-  background: rgba(13, 20, 32, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.06);
+.card-pill {
+  border-radius: 20px;
+  transition: all 180ms ease;
 }
 
-.card-hover {
-  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
-.card-hover:hover {
-  border-color: rgba(0,229,160,0.25);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 0 1px rgba(0,229,160,0.1);
-  transform: translateY(-1px);
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, #00E5A0 0%, #00b37e 100%);
-  color: #080C14;
-  font-weight: 600;
-  font-family: var(--font-syne);
-  transition: all 0.2s;
-  position: relative;
-  overflow: hidden;
-}
-.btn-primary::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 100%);
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-.btn-primary:hover::after { opacity: 1; }
-.btn-primary:hover {
-  box-shadow: 0 0 30px rgba(0,229,160,0.4);
-  transform: translateY(-1px);
-}
-
-.score-ring {
-  filter: drop-shadow(0 0 12px rgba(0,229,160,0.5));
-}
-
-/* Recharts customization */
-.recharts-tooltip-wrapper .recharts-default-tooltip {
-  background: #111827 !important;
-  border: 1px solid rgba(255,255,255,0.08) !important;
-  border-radius: 8px !important;
-}
-
-/* Clerk overrides */
-.cl-rootBox { font-family: var(--font-syne) !important; }

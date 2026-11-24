@@ -1,26 +1,15 @@
 'use client';
+
 import { Suggestion } from '@/types';
-import { Lightbulb, ChevronDown, ChevronUp } from 'lucide-react';
+import { Lightbulb, ChevronDown, ChevronUp, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
+import { Card } from '@/components/ui/Card';
+import { Badge } from '@/components/ui/Badge';
 import { cn } from '@/lib/utils';
 
 interface Props {
   suggestions: Suggestion[];
 }
-
-const PRIORITY_STYLES = {
-  high: { label: 'High', bg: 'bg-red-500/10', text: 'text-red-400', border: 'border-red-500/20' },
-  medium: { label: 'Medium', bg: 'bg-yellow-500/10', text: 'text-yellow-400', border: 'border-yellow-500/20' },
-  low: { label: 'Low', bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/20' },
-};
-
-const CATEGORY_ICONS: Record<string, string> = {
-  documentation: '📝',
-  activity: '⚡',
-  diversity: '🌐',
-  community: '👥',
-  profile: '✨',
-};
 
 export default function Suggestions({ suggestions }: Props) {
   const [open, setOpen] = useState<string | null>(suggestions[0]?.id || null);
@@ -28,53 +17,61 @@ export default function Suggestions({ suggestions }: Props) {
   if (!suggestions.length) return null;
 
   return (
-    <div className="bg-bg-secondary rounded-2xl border border-white/[0.06] p-6">
-      <div className="flex items-center gap-2 mb-6">
-        <Lightbulb className="w-4 h-4 text-accent" />
-        <h2 className="text-sm font-medium text-text-secondary uppercase tracking-widest font-mono">
-          Improvement Suggestions
-        </h2>
+    <Card radius="2xl" className="p-6 border-[#E7E6F0]">
+      <div className="flex items-center gap-2 mb-5">
+        <div className="w-8 h-8 rounded-xl bg-status-warning-soft text-status-warning flex items-center justify-center">
+          <Lightbulb className="w-4 h-4 stroke-[2]" />
+        </div>
+        <div>
+          <h3 className="text-base font-bold text-ink">Actionable Improvements</h3>
+          <p className="text-xs text-ink-muted">Prioritized steps to elevate your GitHub positioning</p>
+        </div>
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-3">
         {suggestions.map((s) => {
-          const pStyle = PRIORITY_STYLES[s.priority];
           const isOpen = open === s.id;
+          const priorityVariant =
+            s.priority === 'high' ? 'danger' : s.priority === 'medium' ? 'warning' : 'default';
+
           return (
             <div
               key={s.id}
               className={cn(
-                'rounded-xl border transition-all duration-200',
-                isOpen ? 'border-accent/20 bg-accent-subtle' : 'border-white/[0.06] bg-bg hover:border-white/[0.12]'
+                'rounded-xl border transition-all duration-150',
+                isOpen
+                  ? 'border-primary/30 bg-primary-subtle/50'
+                  : 'border-line bg-white hover:border-[#D8D6E4]'
               )}
             >
               <button
+                type="button"
                 onClick={() => setOpen(isOpen ? null : s.id)}
-                className="w-full flex items-center gap-3 p-4 text-left"
+                className="w-full flex items-center gap-3 p-4 text-left min-h-[44px]"
               >
-                <span className="text-lg flex-shrink-0">{CATEGORY_ICONS[s.category]}</span>
                 <div className="flex-1 min-w-0">
-                  <p className={cn('font-medium text-sm', isOpen ? 'text-accent' : 'text-text-primary')}>
+                  <p className={cn('text-sm font-semibold', isOpen ? 'text-primary' : 'text-ink')}>
                     {s.title}
                   </p>
                 </div>
-                <div className={cn('text-[10px] font-mono px-2 py-0.5 rounded-full border flex-shrink-0', pStyle.bg, pStyle.text, pStyle.border)}>
-                  {pStyle.label}
-                </div>
+                <Badge variant={priorityVariant} className="uppercase text-[10px] tracking-wider">
+                  {s.priority}
+                </Badge>
                 {isOpen ? (
-                  <ChevronUp className="w-4 h-4 text-text-muted flex-shrink-0" />
+                  <ChevronUp className="w-4 h-4 text-ink-muted flex-shrink-0" />
                 ) : (
-                  <ChevronDown className="w-4 h-4 text-text-muted flex-shrink-0" />
+                  <ChevronDown className="w-4 h-4 text-ink-muted flex-shrink-0" />
                 )}
               </button>
+
               {isOpen && (
-                <div className="px-4 pb-4 space-y-3">
-                  <p className="text-sm text-text-secondary leading-relaxed">{s.description}</p>
-                  <div className="space-y-1.5">
+                <div className="px-4 pb-4 space-y-3 pt-1 border-t border-line/60">
+                  <p className="text-xs text-ink-muted leading-relaxed">{s.description}</p>
+                  <div className="space-y-2">
                     {s.actionItems.map((item, i) => (
-                      <div key={i} className="flex items-start gap-2.5">
-                        <span className="text-accent font-mono text-xs mt-0.5 flex-shrink-0">→</span>
-                        <span className="text-xs text-text-secondary leading-relaxed">{item}</span>
+                      <div key={i} className="flex items-start gap-2 text-xs text-ink">
+                        <ArrowRight className="w-3.5 h-3.5 text-primary mt-0.5 flex-shrink-0" />
+                        <span>{item}</span>
                       </div>
                     ))}
                   </div>
@@ -84,6 +81,6 @@ export default function Suggestions({ suggestions }: Props) {
           );
         })}
       </div>
-    </div>
+    </Card>
   );
 }
