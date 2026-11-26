@@ -64,7 +64,7 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
           aria-label="Close modal"
           className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center text-ink-muted hover:text-ink hover:bg-bg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
         >
-          <Icon name="X" size={16} strokeWidth={2} decorative />
+          <Icon icon={X} size={16} strokeWidth={2} decorative />
         </button>
 
         <div className="flex items-center gap-3.5 mb-6">
